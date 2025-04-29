@@ -1,0 +1,25 @@
+{
+  "name": "assign-school-data",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start:server": "nodemon backend/server.js",
+    "start:client": "cd frontend && npm run dev",
+    "start": "concurrently \"npm run start:server\" \"npm run start:client\"",
+    "build": "cd frontend && npm run build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "socket.io": "^4.8.1",
+    "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "nodemon": "^3.1.10"
+  }
+}
