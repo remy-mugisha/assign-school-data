@@ -8,6 +8,7 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     padding: 0;
+    justify-content: center;
     background-color: #f8fafc;
   }
   
@@ -29,6 +30,7 @@
   
   h1 {
     margin: 0;
+    font-size: 35px;
     color: #1e293b;
   }
   

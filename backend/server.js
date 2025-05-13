@@ -16,14 +16,14 @@ const io = new Server(server, {
 });
 
 io.on('connection', (socket) => {
-  console.log('🔌 New client connected');
+  console.log('Server connected');
 
   socket.on('request', (requestData, callback) => {
-    console.log('📦 Received request:', requestData);
+    console.log('Received request:', requestData);
     const { type, payload } = requestData;
 
     const handleError = (error) => {
-      console.error('🔥 Server error:', error);
+      console.error(' Server error:', error);
       callback({
         success: false,
         error: error.message
@@ -114,10 +114,10 @@ io.on('connection', (socket) => {
   });
 
   socket.on('disconnect', () => {
-    console.log('❌ Client disconnected');
+    console.log(' Client disconnected');
   });
 });
 
 server.listen(3001, () => {
-  console.log('🚀 Server running on http://localhost:3001');
+  console.log(' Server running on http://localhost:3001');
 });
