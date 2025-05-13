@@ -16,14 +16,14 @@ const io = new Server(server, {
 });
 
 io.on('connection', (socket) => {
-  console.log('Server connected');
+  console.log('New client connected');
 
   socket.on('request', (requestData, callback) => {
     console.log('Received request:', requestData);
     const { type, payload } = requestData;
 
     const handleError = (error) => {
-      console.error(' Server error:', error);
+      console.error('Server error:', error);
       callback({
         success: false,
         error: error.message
@@ -79,28 +79,46 @@ io.on('connection', (socket) => {
           break;
 
         case 'GET_DEPARTMENT_MEMBERS':
+          // Query for students
           db.all(
-            `SELECT s.first_name, s.last_name, s.email, d.name as department 
-             FROM ${payload.type}s s
+            `SELECT 'student' as type, first_name, last_name, email, d.name as department 
+             FROM students s
              JOIN departments d ON s.department_id = d.id
              WHERE d.id = ?`,
             [payload.department],
-            (err, rows) => {
+            (err, studentRows) => {
               if (err) return handleError(err);
-              if (rows.length === 0) {
-                return callback({
-                  success: false,
-                  error: 'No members found in this department'
-                });
-              }
-              callback({
-                success: true,
-                data: rows.map(row => ({
-                  name: `${row.first_name} ${row.last_name}`,
-                  email: row.email,
-                  department: row.department
-                }))
-              });
+              
+              // Query for employees
+              db.all(
+                `SELECT 'employee' as type, first_name, last_name, email, d.name as department 
+                 FROM employees e
+                 JOIN departments d ON e.department_id = d.id
+                 WHERE d.id = ?`,
+                [payload.department],
+                (err, employeeRows) => {
+                  if (err) return handleError(err);
+                  
+                  const allMembers = [...studentRows, ...employeeRows];
+                  
+                  if (allMembers.length === 0) {
+                    return callback({
+                      success: false,
+                      error: 'No members found in this department'
+                    });
+                  }
+                  
+                  callback({
+                    success: true,
+                    data: allMembers.map(row => ({
+                      type: row.type,
+                      name: `${row.first_name} ${row.last_name}`,
+                      email: row.email,
+                      department: row.department
+                    }))
+                  });
+                }
+              );
             }
           );
           break;
@@ -114,10 +132,10 @@ io.on('connection', (socket) => {
   });
 
   socket.on('disconnect', () => {
-    console.log(' Client disconnected');
+    console.log('Client disconnected');
   });
 });
 
 server.listen(3001, () => {
-  console.log(' Server running on http://localhost:3001');
+  console.log('Server running on http://localhost:3001');
 });

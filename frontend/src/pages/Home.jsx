@@ -45,7 +45,7 @@ export default function Home() {
     };
 
     socket.emit('request', {
-      type: 'GET_DEPARTMENT_MEMBERS', // Correct request type
+      type: 'GET_DEPARTMENT_MEMBERS',
       payload
     }, (response) => {
       if (response.success) {
