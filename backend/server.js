@@ -79,7 +79,6 @@ io.on('connection', (socket) => {
           break;
 
         case 'GET_DEPARTMENT_MEMBERS':
-          // Query for students
           db.all(
             `SELECT 'student' as type, first_name, last_name, email, d.name as department 
              FROM students s
@@ -89,7 +88,6 @@ io.on('connection', (socket) => {
             (err, studentRows) => {
               if (err) return handleError(err);
               
-              // Query for employees
               db.all(
                 `SELECT 'employee' as type, first_name, last_name, email, d.name as department 
                  FROM employees e

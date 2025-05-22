@@ -107,9 +107,9 @@ export default function Home() {
     <div className="app-container">
       <header>
         <h1>School Data Portal</h1>
-        <div className={`connection-status ${isConnected ? 'connected' : 'disconnected'}`}>
+        {/* <div className={`connection-status ${isConnected ? 'connected' : 'disconnected'}`}>
           {isConnected ? 'Connected' : 'Disconnected'}
-        </div>
+        </div> */}
       </header>
 
       <div className="tabs">
@@ -152,7 +152,8 @@ export default function Home() {
                 type="text"
                 value={formData.firstName}
                 onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                placeholder="Leave blank to search by last name only"
+                placeholder='Enter first name'
+                required
               />
             </div>
             <div className="form-group">
@@ -161,6 +162,7 @@ export default function Home() {
                 type="text"
                 value={formData.lastName}
                 onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+                placeholder='Enter last name'
                 required
               />
             </div>
